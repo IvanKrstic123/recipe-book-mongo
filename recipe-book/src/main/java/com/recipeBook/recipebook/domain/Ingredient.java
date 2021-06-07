@@ -19,6 +19,8 @@ public class Ingredient {
     @OneToOne(fetch = FetchType.EAGER) /** ne zelimo cascade **/
     private UnitOfMeasure unitOfMeasure;
 
+    /** getters and setters **/
+
     public Long getId() {
         return id;
     }

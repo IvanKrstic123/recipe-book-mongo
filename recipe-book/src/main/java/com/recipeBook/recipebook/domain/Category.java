@@ -14,7 +14,7 @@ public class Category {
     @ManyToMany(mappedBy = "categories")
     private Set<Recipe> recipes;
 
-
+    /** getters and setters **/
 
     public Long getId() {
         return id;
