@@ -21,10 +21,10 @@ public class Recipe {
     @Lob /** large object **/
     private Byte[] image;
 
-    @Enumerated(value = EnumType.STRING) /**ordinal je default **/
+    @Enumerated(value = EnumType.STRING) /** ordinal je default **/
     private Difficulty difficulty;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL) /** necemo raditi sa notes i ingredients posebno pa se brise ako se obrise recipe **/
     private Notes notes;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")    /** propertie child-a,target **/
