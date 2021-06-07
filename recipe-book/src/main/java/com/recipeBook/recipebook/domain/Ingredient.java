@@ -13,8 +13,11 @@ public class Ingredient {
     private BigDecimal amount;
     //private unit measure
 
-    @ManyToOne /** ne zelimo kaskade ovde **/
+    @ManyToOne /** ne zelimo cascade ovde **/
     private Recipe recipe;
+
+    @OneToOne(fetch = FetchType.EAGER) /** ne zelimo cascade **/
+    private UnitOfMeasure unitOfMeasure;
 
     public Long getId() {
         return id;
@@ -46,5 +49,13 @@ public class Ingredient {
 
     public void setRecipe(Recipe recipe) {
         this.recipe = recipe;
+    }
+
+    public UnitOfMeasure getUnitOfMeasure() {
+        return unitOfMeasure;
+    }
+
+    public void setUnitOfMeasure(UnitOfMeasure unitOfMeasure) {
+        this.unitOfMeasure = unitOfMeasure;
     }
 }
