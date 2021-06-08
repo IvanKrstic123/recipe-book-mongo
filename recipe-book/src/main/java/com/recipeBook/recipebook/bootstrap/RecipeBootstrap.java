@@ -106,7 +106,6 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
         Category americanCategory = american.get();
         Category mexicanCategory = mexican.get();
 
-
         /** guacamole recipe **/
         Recipe guacRecipe = new Recipe();
         guacRecipe.setDescription("Perfect Guacmole");
@@ -116,15 +115,14 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
         guacRecipe.setDirections("Oljusti nesto... uraditi to i to i tako");
 
         Notes guacNotes = new Notes();
-        guacNotes.setRecipe(guacRecipe);
         guacNotes.setRecipeNote("Ovo je vrlo jednostavan recept koji se priprema svega u par koraka....");
 
         guacRecipe.setNotes(guacNotes);
 
-        guacRecipe.getIngredients().add(new Ingredient("ripe avocados", new BigDecimal(2), eachUOM, guacRecipe));
-        guacRecipe.getIngredients().add(new Ingredient("Kosher Salt", new BigDecimal(5), teaspoonUOM, guacRecipe));
-        guacRecipe.getIngredients().add(new Ingredient("Fresh line juice or lemon juice", new BigDecimal(2), tablespoonUOM, guacRecipe));
-        guacRecipe.getIngredients().add(new Ingredient("Minced red onion", new BigDecimal(2), tablespoonUOM, guacRecipe));
+        guacRecipe.addIngredient(new Ingredient("ripe avocados", new BigDecimal(2), eachUOM));
+        guacRecipe.addIngredient(new Ingredient("Kosher Salt", new BigDecimal(5), teaspoonUOM));
+        guacRecipe.addIngredient(new Ingredient("Fresh line juice or lemon juice", new BigDecimal(2), tablespoonUOM));
+        guacRecipe.addIngredient(new Ingredient("Minced red onion", new BigDecimal(2), tablespoonUOM));
 
         guacRecipe.getCategories().add(americanCategory);
         guacRecipe.getCategories().add(mexicanCategory);
@@ -132,7 +130,7 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
         /** add to return list **/
         recipes.add(guacRecipe);
 
-        /** tacos **/
+        /** tacos Recipe **/
         Recipe tacosRecipe = new Recipe();
         tacosRecipe.setDescription("Spici Grilled Chicked Taco");
         tacosRecipe.setCookTime(9);
@@ -141,17 +139,17 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
         tacosRecipe.setDirections("Pripremite plitku posudu u koju cete smestiti batake....");
 
         Notes tacosNotes = new Notes();
-        tacosNotes.setRecipe(tacosRecipe);
         tacosNotes.setRecipeNote("Poreklom je iz meksika i odlican je za celu porodicu. Priprema se veoma lako i vrlo je ukusno!");
 
         tacosRecipe.setNotes(tacosNotes);
 
-        tacosRecipe.getIngredients().add(new Ingredient("Ancho Chili Powder", new BigDecimal(2), tablespoonUOM,tacosRecipe));
-        tacosRecipe.getIngredients().add(new Ingredient("Bried origano", new BigDecimal(1), teaspoonUOM,tacosRecipe));
-        tacosRecipe.getIngredients().add(new Ingredient("Dried Origano", new BigDecimal(1), teaspoonUOM,tacosRecipe));
-        tacosRecipe.getIngredients().add(new Ingredient("Salt", new BigDecimal(5), teaspoonUOM,tacosRecipe));
-        tacosRecipe.getIngredients().add(new Ingredient("Olive oil", new BigDecimal(2), eachUOM,tacosRecipe));
+        tacosRecipe.addIngredient(new Ingredient("Ancho Chili Powder", new BigDecimal(2), tablespoonUOM));
+        tacosRecipe.addIngredient(new Ingredient("Bried origano", new BigDecimal(1), teaspoonUOM));
+        tacosRecipe.addIngredient(new Ingredient("Dried Origano", new BigDecimal(1), teaspoonUOM));
+        tacosRecipe.addIngredient(new Ingredient("Salt", new BigDecimal(5), teaspoonUOM));
+        tacosRecipe.addIngredient(new Ingredient("Olive oil", new BigDecimal(2), eachUOM));
 
+        /** add to return list **/
         recipes.add(tacosRecipe);
 
         return  recipes;
