@@ -3,8 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <title>Recipe App</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
 </head>
 <body>
-<h1 th:text="'Ovo je aplikacija o receptima'">Hello World!</h1>
+<h1 th:text="'List of Recipes'">Hello World!</h1>
+
+<div class="container">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="recipe: ${recipes}">
+            <td th:text="${recipe.id}">2</td>
+            <td th:text="${recipe.description}">Jacob</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>
