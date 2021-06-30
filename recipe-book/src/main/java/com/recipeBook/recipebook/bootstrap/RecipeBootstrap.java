@@ -4,6 +4,7 @@ import com.recipeBook.recipebook.domain.*;
 import com.recipeBook.recipebook.repositories.CategoryRepository;
 import com.recipeBook.recipebook.repositories.RecipeRepository;
 import com.recipeBook.recipebook.repositories.UnitOfMeasureRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
