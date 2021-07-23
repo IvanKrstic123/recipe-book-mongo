@@ -1,14 +1,15 @@
 package com.recipeBook.recipebook.domain;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 @EqualsAndHashCode(exclude = {"notes", "ingredients", "categories"})
 @Entity
 public class Recipe {

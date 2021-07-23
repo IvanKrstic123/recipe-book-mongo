@@ -1,5 +1,6 @@
 package com.recipeBook.recipebook.services;
 
+import com.recipeBook.recipebook.commands.RecipeCommand;
 import com.recipeBook.recipebook.domain.Recipe;
 
 import java.util.Optional;
@@ -10,4 +11,6 @@ public interface RecipeService {
     Set<Recipe> getRecipes();
 
     Recipe findById(Long l);
+
+    RecipeCommand saveRecipeCommand(RecipeCommand command);
 }

@@ -1,5 +1,7 @@
 package com.recipeBook.recipebook.services;
 
+import com.recipeBook.recipebook.converters.RecipeCommandToRecipe;
+import com.recipeBook.recipebook.converters.RecipeToRecipeCommand;
 import com.recipeBook.recipebook.domain.Recipe;
 import com.recipeBook.recipebook.repositories.RecipeRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,13 +22,19 @@ class RecipeServiceImplTest {
     @Mock
     RecipeRepository recipeRepository;
 
+    @Mock
+    RecipeCommandToRecipe recipeCommandToRecipe;
+
+    @Mock
+    RecipeToRecipeCommand recipeToRecipeCommand;
+
     RecipeServiceImpl recipeService;
 
     @BeforeEach
     void setUp() {
         recipeRepository = Mockito.mock(RecipeRepository.class);
 
-        recipeService = new RecipeServiceImpl(recipeRepository);
+        recipeService = new RecipeServiceImpl(recipeRepository, recipeCommandToRecipe, recipeToRecipeCommand);
     }
 
     @Test
