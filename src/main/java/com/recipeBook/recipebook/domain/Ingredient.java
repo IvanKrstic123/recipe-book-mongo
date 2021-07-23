@@ -5,7 +5,8 @@ import lombok.*;
 import javax.persistence.*;
 import java.math.BigDecimal;
 
-@Data
+@Getter
+@Setter
 @EqualsAndHashCode(exclude = "recipe")
 @Entity
 public class Ingredient {
@@ -15,13 +16,12 @@ public class Ingredient {
     private Long id;
     private String description;
     private BigDecimal amount;
-    //private unit measure
-
-    @ManyToOne /** ne zelimo cascade ovde **/
-    private Recipe recipe;
 
     @OneToOne(fetch = FetchType.EAGER) /** ne zelimo cascade **/
     private UnitOfMeasure unitOfMeasure;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Recipe recipe;
 
     public Ingredient() {
     }
