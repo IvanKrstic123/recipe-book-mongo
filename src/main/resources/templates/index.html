@@ -15,24 +15,34 @@
             crossorigin="anonymous" th:src="@{/webjars/bootstrap/4.6.0-1/js/bootstrap.min.js}"></script>
 </head>
 <body>
-<div class="container">
-    <h1 th:text="'List of Recipes'">Hello World!</h1>
-    <table class="table">
-        <thead>
-        <tr>
-            <th scope="col">Id</th>
-            <th scope="col">Description</th>
-            <th>View</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="recipe: ${recipes}">
-            <td th:text="${recipe.id}">2</td>
-            <td th:text="${recipe.description}">Jacob</td>
-            <td><a href="#" th:href="@{'/recipe/show/' + ${recipe.id}}">View</a></td>
-        </tr>
-        </tbody>
-    </table>
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card text-light mb-3">
+                <div class="card-header" style="background-color: #337ab7;">Recipes</div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">Description</th>
+                            <th>View</th>
+                            <th>Update</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="recipe: ${recipes}">
+                            <td th:text="${recipe.id}">2</td>
+                            <td th:text="${recipe.description}">Jacob</td>
+                            <td style="width:100px;"><a class="btn" style="background-color:#337ab7; color:white;" href="#" th:href="@{'/recipe/' + ${recipe.id} + '/show'}">View</a></td>
+                            <td style="width:100px"><a class="btn" style="background-color:#337ab7; color:white;" href="#" th:href="@{'/recipe/' + ${recipe.id} + '/update'}">Update</a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>

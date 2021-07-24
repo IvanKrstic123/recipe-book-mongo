@@ -46,8 +46,8 @@ public class RecipeServiceImpl implements RecipeService{
         return recipeOptional.get();
     }
 
-    @Override
     @Transactional
+    @Override
     public RecipeCommand saveRecipeCommand(RecipeCommand command) {
         System.out.println("This is called!!!!");
         Recipe detachedRecipe = recipeCommandToRecipe.convert(command);
@@ -55,5 +55,11 @@ public class RecipeServiceImpl implements RecipeService{
         Recipe savedRecipe = recipeRepository.save(detachedRecipe); // ovde je problem
 
         return recipeToRecipeCommand.convert(savedRecipe);
+    }
+
+    @Transactional
+    @Override
+    public RecipeCommand findCommandById(Long id) {
+        return recipeToRecipeCommand.convert(findById(id));
     }
 }
