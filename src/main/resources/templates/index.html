@@ -28,6 +28,7 @@
                             <th scope="col">Description</th>
                             <th>View</th>
                             <th>Update</th>
+                            <th>Delete</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -36,6 +37,7 @@
                             <td th:text="${recipe.description}">Jacob</td>
                             <td style="width:100px;"><a class="btn" style="background-color:#337ab7; color:white;" href="#" th:href="@{'/recipe/' + ${recipe.id} + '/show'}">View</a></td>
                             <td style="width:100px"><a class="btn" style="background-color:#337ab7; color:white;" href="#" th:href="@{'/recipe/' + ${recipe.id} + '/update'}">Update</a></td>
+                            <td style="width:100px"><a class="btn btn-danger" style="color:white;" href="#" th:href="@{'/recipe/' + ${recipe.id} + '/delete'}">Delete</a></td>
                         </tr>
                         </tbody>
                     </table>
