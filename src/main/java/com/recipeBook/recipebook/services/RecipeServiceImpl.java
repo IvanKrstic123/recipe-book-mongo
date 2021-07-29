@@ -52,7 +52,7 @@ public class RecipeServiceImpl implements RecipeService{
         System.out.println("This is called!!!!");
         Recipe detachedRecipe = recipeCommandToRecipe.convert(command);
 
-        Recipe savedRecipe = recipeRepository.save(detachedRecipe); // ovde je problem
+        Recipe savedRecipe = recipeRepository.save(detachedRecipe);
 
         return recipeToRecipeCommand.convert(savedRecipe);
     }
