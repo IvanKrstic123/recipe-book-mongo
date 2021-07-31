@@ -29,7 +29,6 @@ public class IngredientController {
         return "recipe/ingredient/list";
     }
 
-    //view\
     @GetMapping
     @RequestMapping("recipe/{recipeId}/ingredient/{ingredientId}/show")
     public String showRecipeIngredient(@PathVariable String recipeId,
