@@ -35,9 +35,9 @@
             <tr th:each="ingredient: ${recipe.ingredients}">
               <td th:text="${ingredient.id}">2</td>
               <td th:text="${ingredient.amount} + ' ' + ${ingredient.uom.description} + ' ' + ${ingredient.description}"></td>
-              <td style="width:100px;"><a class="btn" style="background-color:#337ab7; color:white;" href="#" th:href="@{'/ingredient/' + ${ingredient.id} + '/show'}">View</a></td>
-              <td style="width:100px"><a class="btn" style="background-color:#337ab7; color:white;" href="#" th:href="@{'/ingredient/' + ${ingredient.id} + '/update'}">Update</a></td>
-              <td style="width:100px"><a class="btn btn-danger" style="color:white;" href="#" th:href="@{'/ingredient/' + ${ingredient.id} + '/delete'}">Delete</a></td>
+              <td style="width:100px;"><a class="btn" style="background-color:#337ab7; color:white;" href="#" th:href="@{'/recipe/' + ${recipe.id} + '/ingredient/' + ${ingredient.id} + '/show'}">View</a></td>
+              <td style="width:100px;"><a class="btn" style="background-color:#337ab7; color:white;" href="#" th:href="@{'/recipe/' + ${recipe.id} + '/ingredient/' + ${ingredient.id} + '/update'}">Update</a></td>
+              <td style="width:100px;"><a class="btn btn-danger" style="color:white;" href="#" th:href="@{'/recipe/' + ${recipe.id} + '/ingredient/' + ${ingredient.id} + '/delete'}">Delete</a></td>
             </tr>
             </tbody>
           </table>
