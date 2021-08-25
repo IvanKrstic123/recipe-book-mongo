@@ -1,6 +1,7 @@
 package com.recipeBook.recipebook.services;
 
 import com.recipeBook.recipebook.commands.IngredientCommand;
+import com.recipeBook.recipebook.commands.UnitOfMeasureCommand;
 import com.recipeBook.recipebook.converters.IngredientCommandToIngredient;
 import com.recipeBook.recipebook.converters.IngredientToIngredientCommand;
 import com.recipeBook.recipebook.converters.UnitOfMeasureCommandToUnitOfMeasure;
@@ -14,6 +15,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -26,14 +28,15 @@ class IngredientServiceImplTest {
     private static final Long INGREDIENT1_ID = 1L;
     private static final Long INGREDIENT2_ID = 2L;
 
-    private final IngredientToIngredientCommand converter = new IngredientToIngredientCommand(new UnitOfMeasureToUnitOfMeasureCommand());
-    private final IngredientCommandToIngredient converter2 = new IngredientCommandToIngredient(new UnitOfMeasureCommandToUnitOfMeasure());
+    private IngredientToIngredientCommand ingredientToIngredientCommand = new IngredientToIngredientCommand(new UnitOfMeasureToUnitOfMeasureCommand());
+    private final IngredientCommandToIngredient ingredientCommandToIngredient = new IngredientCommandToIngredient(new UnitOfMeasureCommandToUnitOfMeasure());
 
     @Mock
     RecipeRepository recipeRepository;
 
     @Mock
     UnitOfMeasureRepository uomRepository;
+
 
     IngredientService ingredientService;
 
@@ -42,7 +45,7 @@ class IngredientServiceImplTest {
         recipeRepository = Mockito.mock(RecipeRepository.class);
         uomRepository = Mockito.mock(UnitOfMeasureRepository.class);
 
-        ingredientService = new IngredientServiceImpl(recipeRepository, uomRepository, converter, converter2, new UnitOfMeasureCommandToUnitOfMeasure());
+        ingredientService = new IngredientServiceImpl(recipeRepository, uomRepository, ingredientToIngredientCommand, ingredientCommandToIngredient, new UnitOfMeasureCommandToUnitOfMeasure());
     }
 
     @Test
@@ -77,16 +80,19 @@ class IngredientServiceImplTest {
 
     @Test
     void saveIngredientCommand() {
+        UnitOfMeasureCommand unitOfMeasureCommand = new UnitOfMeasureCommand();
+        unitOfMeasureCommand.setId(1L);
+
         IngredientCommand command = new IngredientCommand();
         command.setId(1L);
         command.setRecipeId(2L);
+        command.setDescription("teaspoon");
+        command.setAmount(BigDecimal.valueOf(5));
+        command.setUom(unitOfMeasureCommand);
 
+        //what will be returned
         Recipe savedRecipe = new Recipe();
-        savedRecipe.addIngredient(new Ingredient());
-        savedRecipe.getIngredients()
-                .iterator()
-                .next()
-                .setId(1L);
+        savedRecipe.addIngredient(ingredientCommandToIngredient.convert(command));
 
         when(recipeRepository.findById(any())).thenReturn(Optional.of(new Recipe()));
         when(recipeRepository.save(any())).thenReturn(savedRecipe);
