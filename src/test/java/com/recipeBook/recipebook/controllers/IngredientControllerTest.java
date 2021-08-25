@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import javax.print.attribute.standard.Media;
 import java.util.HashSet;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -116,5 +117,18 @@ class IngredientControllerTest {
                 .param("description", "some string"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/recipe/2/ingredient/4/show"));
+    }
+
+    @Test
+    void testDeleteIngredient() throws Exception {
+
+        mockMvc.perform(get("/recipe/2/ingredient/3/delete")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("id", "")
+                .param("description", "some string")
+        )
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/recipe/2/ingredients"));
+
     }
 }
