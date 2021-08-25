@@ -1,6 +1,8 @@
 package com.recipeBook.recipebook.controllers;
 
 import com.recipeBook.recipebook.commands.IngredientCommand;
+import com.recipeBook.recipebook.commands.RecipeCommand;
+import com.recipeBook.recipebook.commands.UnitOfMeasureCommand;
 import com.recipeBook.recipebook.services.IngredientService;
 import com.recipeBook.recipebook.services.RecipeService;
 import com.recipeBook.recipebook.services.UnitOfMeasureService;
@@ -47,6 +49,21 @@ public class IngredientController {
                                        @PathVariable String ingredientId, Model model) {
         model.addAttribute("ingredient", ingredientService.findByRecipeIdAndIngredientId(Long.valueOf(recipeId), Long.valueOf(ingredientId)));
 
+        model.addAttribute("uomList", unitOfMeasureService.listAllUoms());
+
+        return "recipe/ingredient/ingredientform";
+    }
+
+    @GetMapping
+    @RequestMapping("recipe/{recipeId}/ingredient/new")
+    public String newIngredientForm(@PathVariable String recipeId, Model model){
+        RecipeCommand recipeCommand = recipeService.findCommandById(Long.valueOf(recipeId));
+
+        IngredientCommand ingredientCommand = new IngredientCommand();
+        ingredientCommand.setRecipeId(recipeCommand.getId());
+        ingredientCommand.setUom(new UnitOfMeasureCommand());
+
+        model.addAttribute("ingredient", ingredientCommand);
         model.addAttribute("uomList", unitOfMeasureService.listAllUoms());
 
         return "recipe/ingredient/ingredientform";
