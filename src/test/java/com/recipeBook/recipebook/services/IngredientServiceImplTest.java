@@ -37,7 +37,6 @@ class IngredientServiceImplTest {
     @Mock
     UnitOfMeasureRepository uomRepository;
 
-
     IngredientService ingredientService;
 
     @BeforeEach
