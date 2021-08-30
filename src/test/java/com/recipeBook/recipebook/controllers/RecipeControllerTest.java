@@ -2,6 +2,8 @@ package com.recipeBook.recipebook.controllers;
 
 import com.recipeBook.recipebook.commands.RecipeCommand;
 import com.recipeBook.recipebook.domain.Recipe;
+import com.recipeBook.recipebook.exceptions.NotFoundExceotion;
+import com.recipeBook.recipebook.repositories.RecipeRepository;
 import com.recipeBook.recipebook.services.RecipeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,6 +29,9 @@ class RecipeControllerTest {
     @Mock
     RecipeService recipeService;
 
+    @Mock
+    RecipeRepository recipeRepository;
+
     @InjectMocks
     RecipeController controller;
 
@@ -40,7 +45,7 @@ class RecipeControllerTest {
     }
 
     @Test
-    void testGetREcipe() throws Exception {
+    void testGetRecipe() throws Exception {
         Recipe recipe = new Recipe();
         recipe.setId(1L);
 
@@ -53,7 +58,18 @@ class RecipeControllerTest {
     }
 
     @Test
-    void testGetNewRecipe() throws Exception {
+    void testNotFoundRecipe() throws Exception {
+
+        Recipe recipe = new Recipe();
+        recipe.setId(1L);
+
+        when(recipeService.findById(anyLong())).thenThrow(NotFoundExceotion.class);
+
+        mockMvc.perform(get("/recipe/1/show"))
+                .andExpect(status().isNotFound());
+    }
+    @Test
+    void testGetAddNewRecipe() throws Exception {
         RecipeCommand recipeCommand = new RecipeCommand();
 
         mockMvc.perform(get("/recipe/new"))
@@ -62,6 +78,21 @@ class RecipeControllerTest {
                 .andExpect(model().attributeExists("recipe"));
     }
 
+    //update-get
+    @Test
+    void testGetUpdateView() throws Exception {
+        RecipeCommand recipeCommand = new RecipeCommand();
+        recipeCommand.setId(1L);
+
+        when(recipeService.findCommandById(anyLong())).thenReturn(recipeCommand);
+
+        mockMvc.perform(get("/recipe/1/update"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("recipe/recipeform"))
+                .andExpect(model().attributeExists("recipe"));
+    }
+
+    //update-post
     @Test
     void testPostNewRecipeForm() throws Exception {
         RecipeCommand recipeCommand = new RecipeCommand();
@@ -77,19 +108,7 @@ class RecipeControllerTest {
                 .andExpect(view().name("redirect:/recipe/3/show"));
     }
 
-    @Test
-    void testGetUpdateView() throws Exception {
-        RecipeCommand recipeCommand = new RecipeCommand();
-        recipeCommand.setId(1L);
-
-        when(recipeService.findCommandById(anyLong())).thenReturn(recipeCommand);
-
-        mockMvc.perform(get("/recipe/1/update"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("recipe/recipeform"))
-                .andExpect(model().attributeExists("recipe"));
-    }
-
+    //delete
     @Test
     void testDeleteAction() throws Exception {
         mockMvc.perform(get("/recipe/2/delete"))
