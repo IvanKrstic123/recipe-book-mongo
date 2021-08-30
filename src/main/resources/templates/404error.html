@@ -16,7 +16,12 @@
             crossorigin="anonymous"></script>
 </head>
 <body>
-<h1 style="text-align:center;">404 Not Found</h1>
+<div  style="text-align:center;">
+    <h1>404 Not Found</h1>
+    <p th:text="${exception.getMessage()}"></p>
+</div>
+
+
 
 </body>
 </html>
