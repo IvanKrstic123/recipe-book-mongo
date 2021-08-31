@@ -25,6 +25,7 @@ public class RecipeController {
         model.addAttribute("recipe", recipeService.findById(Long.parseLong(id)));
 
         return "recipe/show";
+
     }
 
     @GetMapping("recipe/new")
@@ -62,9 +63,18 @@ public class RecipeController {
         ModelAndView modelAndView = new ModelAndView();
 
         modelAndView.addObject("exception", e);
-
         modelAndView.setViewName("404error");
 
+        return modelAndView;
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(NumberFormatException.class)
+    public ModelAndView handleBadRequest(Exception e) {
+        ModelAndView modelAndView = new ModelAndView();
+
+        modelAndView.addObject("exception", e);
+        modelAndView.setViewName("400error");
 
         return modelAndView;
     }
