@@ -40,6 +40,7 @@ class ImageControllerTest {
     void setUp() {
         mockMvc = MockMvcBuilders
                 .standaloneSetup(controller)
+                .setControllerAdvice(new ControllerExceptionHandler())
                 .build();
     }
 
@@ -56,6 +57,14 @@ class ImageControllerTest {
 
         verify(recipeService, times(1)).findCommandById(anyLong());
 
+    }
+
+    @Test
+    void getImage() throws Exception {
+
+        mockMvc.perform(get("/recipe/asdasd/image"))
+                .andExpect(status().isBadRequest())
+                .andExpect(view().name("400error"));
     }
 
     @Test
