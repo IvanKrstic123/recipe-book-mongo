@@ -18,6 +18,7 @@ public class Ingredient {
     private BigDecimal amount;
 
     @OneToOne(fetch = FetchType.EAGER) /** ne zelimo cascade **/
+    @JoinColumn(name = "uom_id")
     private UnitOfMeasure unitOfMeasure;
 
     @ManyToOne(fetch = FetchType.LAZY)

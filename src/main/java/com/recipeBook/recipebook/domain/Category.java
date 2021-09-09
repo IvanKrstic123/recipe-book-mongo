@@ -9,7 +9,7 @@ import java.util.Set;
 @Setter
 @EqualsAndHashCode(exclude = "recipes")
 @Entity
-public class Category {
+public class    Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

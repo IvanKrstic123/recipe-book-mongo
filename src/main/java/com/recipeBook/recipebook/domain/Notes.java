@@ -18,6 +18,7 @@ public class Notes {
     private Recipe recipe;
 
     @Lob
+    @Column(name = "recipe_notes")
     private String recipeNote;
 
     /** getters and setters **/
