@@ -33,6 +33,10 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test:2.5.0'
 }
 
+test {
+    useJUnitPlatform()
+}
+
 group = 'com.recipeBook'
 version = '0.0.1-SNAPSHOT'
 description = 'recipe-book'
