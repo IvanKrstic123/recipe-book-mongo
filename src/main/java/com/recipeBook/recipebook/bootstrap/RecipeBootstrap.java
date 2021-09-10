@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 import java.util.*;
 
 @Component
-@Profile("default")
+@Profile("dev")
 public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEvent> {
 
     private RecipeRepository recipeRepository;

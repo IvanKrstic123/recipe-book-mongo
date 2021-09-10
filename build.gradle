@@ -3,6 +3,8 @@
  */
 
 plugins {
+    id 'org.springframework.boot' version '2.5.4'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
     id 'maven-publish'
     id 'jacoco'
@@ -17,20 +19,20 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.5.0'
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+    implementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf:2.5.0'
     implementation 'org.springframework.boot:spring-boot-starter-web:2.5.0'
     compileOnly 'org.projectlombok:lombok:1.18.20'
     annotationProcessor 'org.projectlombok:lombok:1.18.20'
     implementation 'org.webjars:bootstrap:4.6.0-1'
-    implementation 'mysql:mysql-connector-java:8.0.25'
     implementation 'org.assertj:assertj-core:3.19.0'
     implementation 'org.springframework.boot:spring-boot-starter-validation:2.5.0'
     implementation 'com.google.code.findbugs:jsr305:3.0.2'
-    // https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api
+
+    // https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api javax bug fixed
     implementation group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.0-b170201.1204'
     runtimeOnly 'org.springframework.boot:spring-boot-devtools:2.5.0'
-    runtimeOnly 'com.h2database:h2:1.4.200'
     testImplementation 'org.springframework.boot:spring-boot-starter-test:2.5.0'
 }
 
@@ -39,7 +41,7 @@ test {
 }
 
 jacoco {
-    toolVersion = "0.8.5"
+    toolVersion = "0.8.7"
 }
 
 //export test coverage
