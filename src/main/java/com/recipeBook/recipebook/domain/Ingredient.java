@@ -2,6 +2,7 @@ package com.recipeBook.recipebook.domain;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import java.math.BigDecimal;
 
@@ -15,9 +16,8 @@ public class Ingredient {
     private String description;
     private BigDecimal amount;
 
+    @DBRef
     private UnitOfMeasure unitOfMeasure;
-
-    private Recipe recipe;
 
     public Ingredient() {
     }
@@ -28,11 +28,5 @@ public class Ingredient {
         this.unitOfMeasure = unitOfMeasure;
     }
 
-    public Ingredient(String description, BigDecimal amount, UnitOfMeasure unitOfMeasure, Recipe recipe) {
-        this.description = description;
-        this.amount = amount;
-        this.recipe = recipe;
-        this.unitOfMeasure = unitOfMeasure;
-    }
 
 }

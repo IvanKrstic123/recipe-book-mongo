@@ -22,7 +22,7 @@ class NotesToNotesCommandTest {
     void convert() {
         Notes notes = new Notes();
         notes.setId(ID_VALUE);
-        notes.setRecipeNote(RECIPE_NOTE);
+        notes.setRecipeNotes(RECIPE_NOTE);
 
         NotesCommand converted = converter.convert(notes);
 

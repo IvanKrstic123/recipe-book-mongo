@@ -2,6 +2,9 @@ package com.recipeBook.recipebook.domain;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -9,6 +12,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode(exclude = {"notes", "ingredients", "categories"})
+@Document
 public class Recipe {
 
     @Id
@@ -30,6 +34,7 @@ public class Recipe {
 
     private Set<Ingredient> ingredients = new HashSet<>();
 
+    @DBRef
     private Set<Category> categories = new HashSet<>();
 
     /** getters and setters **/
@@ -38,12 +43,10 @@ public class Recipe {
     public void setNotes(Notes notes) {
         if (notes != null) {
             this.notes = notes;
-            notes.setRecipe(this);
         }
     }
 
     public Recipe addIngredient(Ingredient ingredient) {
-        ingredient.setRecipe(this);
         this.ingredients.add(ingredient);
         return this;
     }

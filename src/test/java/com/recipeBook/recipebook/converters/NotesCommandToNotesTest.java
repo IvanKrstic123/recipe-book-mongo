@@ -28,7 +28,7 @@ class NotesCommandToNotesTest {
 
         assertNotNull(converted);
         assertEquals(ID_VALUE, converted.getId());
-        assertEquals(RECIPE_NOTE, converted.getRecipeNote());
+        assertEquals(RECIPE_NOTE, converted.getRecipeNotes());
     }
 
     @Test

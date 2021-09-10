@@ -13,7 +13,7 @@ public class Notes {
 
     private Recipe recipe;
 
-    private String recipeNote;
+    private String recipeNotes;
 
     /** getters and setters **/
 }
