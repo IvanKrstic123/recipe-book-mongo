@@ -2,17 +2,15 @@ package com.recipeBook.recipebook.converters;
 
 import com.recipeBook.recipebook.commands.CategoryCommand;
 import com.recipeBook.recipebook.domain.Category;
-import com.recipeBook.recipebook.domain.Recipe;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class CategoryToCategoryCommandTest {
 
-    private static final Long ID_VALUE = 1L;
+    private static final String ID_VALUE = "1";
     private static final String DESCRIPTION = "description";
     CategoryToCategoryCommand converter;
 

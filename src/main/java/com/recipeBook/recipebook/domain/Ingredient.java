@@ -1,27 +1,22 @@
 package com.recipeBook.recipebook.domain;
 
 import lombok.*;
+import org.springframework.data.annotation.Id;
 
-import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Getter
 @Setter
 @EqualsAndHashCode(exclude = "recipe")
-@Entity
 public class Ingredient {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
     private String description;
     private BigDecimal amount;
 
-    @OneToOne(fetch = FetchType.EAGER) /** ne zelimo cascade **/
-    @JoinColumn(name = "uom_id")
     private UnitOfMeasure unitOfMeasure;
 
-    @ManyToOne(fetch = FetchType.LAZY)
     private Recipe recipe;
 
     public Ingredient() {

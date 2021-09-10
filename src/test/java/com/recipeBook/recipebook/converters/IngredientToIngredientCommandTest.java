@@ -11,9 +11,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class IngredientToIngredientCommandTest {
 
-    private static final Long ID_VALUE = 1L;
+    private static final String ID_VALUE = "1";
     private static final String DESCRIPTION = "description";
-    private static final Long UOM_ID = 1L;
+    private static final String UOM_ID = "1";
     private static final String UOM_DESCRIPTION = "uom_description";
     private static final Recipe recipe = new Recipe();
     IngredientToIngredientCommand converter;

@@ -19,14 +19,14 @@ import java.math.BigDecimal;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 class IngredientServiceImplTest {
 
-    private static final Long RECIPE_ID = 1L;
-    private static final Long INGREDIENT1_ID = 1L;
-    private static final Long INGREDIENT2_ID = 2L;
+    private static final String RECIPE_ID = "1";
+    private static final String INGREDIENT1_ID = "1";
+    private static final String INGREDIENT2_ID = "2";
 
     private IngredientToIngredientCommand ingredientToIngredientCommand = new IngredientToIngredientCommand(new UnitOfMeasureToUnitOfMeasureCommand());
     private final IngredientCommandToIngredient ingredientCommandToIngredient = new IngredientCommandToIngredient(new UnitOfMeasureCommandToUnitOfMeasure());
@@ -67,24 +67,24 @@ class IngredientServiceImplTest {
         // mock data
         Optional<Recipe> optionalRecipe = Optional.of(recipe);
 
-        when(recipeRepository.findById(anyLong())).thenReturn(optionalRecipe);
+        when(recipeRepository.findById(anyString())).thenReturn(optionalRecipe);
 
-        IngredientCommand ingredientCommand = ingredientService.findByRecipeIdAndIngredientId(1L, 2L);
+        IngredientCommand ingredientCommand = ingredientService.findByRecipeIdAndIngredientId("1", "2");
 
         //when
-        assertEquals(2L, ingredientCommand.getId());
-        assertEquals(1L, ingredientCommand.getRecipeId());
-        verify(recipeRepository, times(1)).findById(anyLong());
+        assertEquals("2", ingredientCommand.getId());
+        assertEquals("1", ingredientCommand.getRecipeId());
+        verify(recipeRepository, times(1)).findById(anyString());
     }
 
     @Test
     void saveIngredientCommand() {
         UnitOfMeasureCommand unitOfMeasureCommand = new UnitOfMeasureCommand();
-        unitOfMeasureCommand.setId(1L);
+        unitOfMeasureCommand.setId("1");
 
         IngredientCommand command = new IngredientCommand();
-        command.setId(1L);
-        command.setRecipeId(2L);
+        command.setId("1");
+        command.setRecipeId("2");
         command.setDescription("teaspoon");
         command.setAmount(BigDecimal.valueOf(5));
         command.setUom(unitOfMeasureCommand);
@@ -98,7 +98,7 @@ class IngredientServiceImplTest {
 
         IngredientCommand savedCommand = ingredientService.saveIngredientCommand(command);
 
-        assertEquals(1L, savedCommand.getId());
+        assertEquals("1", savedCommand.getId());
         verify(recipeRepository, times(1)).findById(any());
         verify(recipeRepository, times(1)).save(any(Recipe.class));
     }
@@ -106,22 +106,22 @@ class IngredientServiceImplTest {
     @Test
     void deleteIngredient() {
         Ingredient ingredient = new Ingredient();
-        ingredient.setId(1L);
+        ingredient.setId("1");
         ingredient.setDescription("teaspoon");
         ingredient.setAmount(BigDecimal.valueOf(5));
 
         //what will be returned
         Recipe recipe = new Recipe();
-        recipe.setId(2L);
+        recipe.setId("2");
         recipe.addIngredient(ingredient);
         ingredient.setRecipe(recipe);
 
         when(recipeRepository.findById(any())).thenReturn(Optional.of(recipe));
 
-        ingredientService.deleteById(2L,1L);
+        ingredientService.deleteById("2","1");
 
-        assertEquals(0, recipeRepository.findById(2L).get().getIngredients().size());
-        verify(recipeRepository, times(2)).findById(anyLong());
+        assertEquals(0, recipeRepository.findById("2").get().getIngredients().size());
+        verify(recipeRepository, times(2)).findById(anyString());
         verify(recipeRepository, times(1)).save(any(Recipe.class));
 
     }

@@ -19,7 +19,7 @@ import javax.print.attribute.standard.Media;
 import java.util.HashSet;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -53,21 +53,21 @@ class IngredientControllerTest {
     void testListIngredients() throws Exception {
         RecipeCommand recipe = new RecipeCommand();
 
-        when(recipeService.findCommandById(anyLong())).thenReturn(recipe);
+        when(recipeService.findCommandById(anyString())).thenReturn(recipe);
 
         mockMvc.perform(get("/recipe/1/ingredients"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("recipe/ingredient/list"))
                 .andExpect(model().attributeExists("recipe"));
 
-        verify(recipeService, times(1)).findCommandById(anyLong());
+        verify(recipeService, times(1)).findCommandById(anyString());
     }
 
     @Test
     void testShowIngredient() throws Exception {
         IngredientCommand ingredientCommand = new IngredientCommand();
 
-        when(ingredientService.findByRecipeIdAndIngredientId(anyLong(), anyLong())).thenReturn(ingredientCommand);
+        when(ingredientService.findByRecipeIdAndIngredientId(anyString(), anyString())).thenReturn(ingredientCommand);
 
         mockMvc.perform(get("/recipe/1/ingredient/2/show"))
                 .andExpect(status().isOk())
@@ -79,7 +79,7 @@ class IngredientControllerTest {
     void testUpdateIngredientDisplayForm() throws Exception {
         IngredientCommand command = new IngredientCommand();
 
-        when(ingredientService.findByRecipeIdAndIngredientId(anyLong(), anyLong())).thenReturn(command);
+        when(ingredientService.findByRecipeIdAndIngredientId(anyString(), anyString())).thenReturn(command);
         when(uomService.listAllUoms()).thenReturn(new HashSet<>());
 
         mockMvc.perform(get("/recipe/1/ingredient/3/update"))
@@ -94,7 +94,7 @@ class IngredientControllerTest {
         IngredientCommand ingredientCommand = new IngredientCommand();
         RecipeCommand recipeCommand = new RecipeCommand();
 
-        when(recipeService.findCommandById(anyLong())).thenReturn(recipeCommand);
+        when(recipeService.findCommandById(anyString())).thenReturn(recipeCommand);
         when(uomService.listAllUoms()).thenReturn(new HashSet<>());
 
         mockMvc.perform(get("/recipe/1/ingredient/new"))
@@ -106,8 +106,8 @@ class IngredientControllerTest {
     @Test
     void testSaveOrUpdatePostForm() throws Exception {
         IngredientCommand command = new IngredientCommand();
-        command.setId(4L);
-        command.setRecipeId(2L);
+        command.setId("4");
+        command.setRecipeId("2");
 
         when(ingredientService.saveIngredientCommand(any())).thenReturn(command);
 

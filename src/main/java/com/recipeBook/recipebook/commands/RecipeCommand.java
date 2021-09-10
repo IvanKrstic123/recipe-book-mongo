@@ -1,7 +1,6 @@
 package com.recipeBook.recipebook.commands;
 
 import com.recipeBook.recipebook.domain.Difficulty;
-import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,9 +17,10 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 public class RecipeCommand {
-    private Long id;
 
-    @NotNull
+    private String id;
+
+    @NotBlank
     @Size(min = 3, max = 255) /** maven dependency -validation- */
     private String description;
 

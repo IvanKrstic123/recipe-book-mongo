@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class UnitOfMeasureToUnitOfMeasureCommandTest {
 
-    private static final Long UOM_ID = 10L;
+    private static final String UOM_ID = "10";
     private static final String UOM_DESCRIPTION = "DESCRIPTION";
     UnitOfMeasureToUnitOfMeasureCommand converter;
 

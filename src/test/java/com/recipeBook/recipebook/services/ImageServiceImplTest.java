@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 class ImageServiceImplTest {
@@ -37,13 +37,13 @@ class ImageServiceImplTest {
         MultipartFile multipartFile = new MockMultipartFile("imageFile", "testing.txt", "text/plain",
                 "Spring Fremework Guru".getBytes());
 
-        Long id = 1L;
+        String id = "1";
         Recipe recipe = new Recipe();
         recipe.setId(id);
 
         Optional<Recipe> optionalRecipe = Optional.of(recipe);
 
-        when(recipeRepository.findById(anyLong())).thenReturn(optionalRecipe);
+        when(recipeRepository.findById(anyString())).thenReturn(optionalRecipe);
 
         ArgumentCaptor<Recipe> argumentCaptor = ArgumentCaptor.forClass(Recipe.class);
 

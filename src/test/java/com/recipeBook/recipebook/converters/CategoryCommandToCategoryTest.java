@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CategoryCommandToCategoryTest {
 
-    private static final Long LONG_VALUE = 1L;
+    private static final String ID_VALUE = "1";
     private static final String DESCRIPTION = "description";
     private CategoryCommandToCategory converter;
 
@@ -21,13 +21,13 @@ class CategoryCommandToCategoryTest {
     @Test
     void convert() {
         CategoryCommand source = new CategoryCommand();
-        source.setId(LONG_VALUE);
+        source.setId(ID_VALUE);
         source.setDescription(DESCRIPTION);
 
         Category converted = converter.convert(source);
 
         assertNotNull(source);
-        assertEquals(LONG_VALUE, converted.getId());
+        assertEquals(ID_VALUE, converted.getId());
         assertEquals(DESCRIPTION, converted.getDescription());
     }
 

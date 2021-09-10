@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class RecipeToRecipeCommandTest {
 
-    private static final Long RECIPE_ID = 1L;
+    private static final String RECIPE_ID = "1";
     private static final Integer COOK_TIME = 5;
     private static final Integer PREP_TIME = 25;
     private static final String DESCRIPTION = "description";
@@ -17,11 +17,11 @@ class RecipeToRecipeCommandTest {
     private static final Integer SERVINGS = 50;
     private static final String SOURCE = "www.food.rs";
     private static final String URL = "url";
-    private static final Long NOTES_ID = 1L;
-    private static final Long CATEGORY_ID = 20L;
-    private static final Long CATEGORY1_ID = 21L;
-    private static final Long INGREDIENT_ID = 10L;
-    private static final Long INGREDIENT1_ID = 11L;
+    private static final String NOTES_ID = "1";
+    private static final String CATEGORY_ID = "20";
+    private static final String CATEGORY1_ID = "21";
+    private static final String INGREDIENT_ID = "10";
+    private static final String INGREDIENT1_ID = "11";
     private static final Difficulty DIFFICULTY = Difficulty.EASY;
     RecipeToRecipeCommand converter;
 

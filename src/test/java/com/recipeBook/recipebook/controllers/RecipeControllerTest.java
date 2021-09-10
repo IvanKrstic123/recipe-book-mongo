@@ -48,9 +48,9 @@ class RecipeControllerTest {
     @Test
     void testGetRecipe() throws Exception {
         Recipe recipe = new Recipe();
-        recipe.setId(1L);
+        recipe.setId("1");
 
-        when(recipeService.findById(anyLong())).thenReturn(recipe);
+        when(recipeService.findById(anyString())).thenReturn(recipe);
 
         mockMvc.perform(get("/recipe/1/show"))
                 .andExpect(status().isOk())
@@ -60,7 +60,7 @@ class RecipeControllerTest {
 
     @Test
     void testNotFoundRecipe() throws Exception {
-        when(recipeService.findById(anyLong())).thenThrow(NotFoundExceotion.class);
+        when(recipeService.findById(anyString())).thenThrow(NotFoundExceotion.class);
 
         mockMvc.perform(get("/recipe/1/show"))
                 .andExpect(status().isNotFound())
@@ -88,9 +88,9 @@ class RecipeControllerTest {
     @Test
     void testGetUpdateView() throws Exception {
         RecipeCommand recipeCommand = new RecipeCommand();
-        recipeCommand.setId(1L);
+        recipeCommand.setId("1");
 
-        when(recipeService.findCommandById(anyLong())).thenReturn(recipeCommand);
+        when(recipeService.findCommandById(anyString())).thenReturn(recipeCommand);
 
         mockMvc.perform(get("/recipe/1/update"))
                 .andExpect(status().isOk())
@@ -102,7 +102,7 @@ class RecipeControllerTest {
     @Test
     void testPostNewRecipeForm() throws Exception {
         RecipeCommand recipeCommand = new RecipeCommand();
-        recipeCommand.setId(3L);
+        recipeCommand.setId("3");
 
         when(recipeService.saveRecipeCommand(any())).thenReturn(recipeCommand);
 
@@ -122,6 +122,6 @@ class RecipeControllerTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/"));
 
-        verify(recipeService, times(1)).deleteById(anyLong());
+        verify(recipeService, times(1)).deleteById(anyString());
     }
 }

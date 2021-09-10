@@ -2,7 +2,6 @@ package com.recipeBook.recipebook.converters;
 
 import com.recipeBook.recipebook.commands.NotesCommand;
 import com.recipeBook.recipebook.domain.Notes;
-import com.recipeBook.recipebook.domain.Recipe;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -10,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class NotesToNotesCommandTest {
 
-    private static final Long ID_VALUE = 1L;
+    private static final String ID_VALUE = "1";
     private static final String RECIPE_NOTE = "recipe_note";
     NotesToNotesCommand converter;
 

@@ -5,6 +5,7 @@ import com.recipeBook.recipebook.converters.RecipeToRecipeCommand;
 import com.recipeBook.recipebook.domain.Recipe;
 import com.recipeBook.recipebook.repositories.RecipeRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,10 +14,12 @@ import org.springframework.transaction.annotation.Transactional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
+@Disabled
 @SpringBootTest
 class RecipeServiceIT {
 
     private static final String NEW_DESCRIPTION = "New description";
+
     @Autowired
     RecipeService recipeService;
 
@@ -41,7 +44,6 @@ class RecipeServiceIT {
         //when
         testRecipeCommand.setDescription(NEW_DESCRIPTION);
         RecipeCommand savedRecipeCommand = recipeService.saveRecipeCommand(testRecipeCommand);
-
 
         //then
         assertEquals(NEW_DESCRIPTION, savedRecipeCommand.getDescription());

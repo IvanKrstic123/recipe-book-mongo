@@ -5,7 +5,6 @@ import com.recipeBook.recipebook.commands.UnitOfMeasureCommand;
 import com.recipeBook.recipebook.domain.Ingredient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 
@@ -13,11 +12,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class IngredientCommandToIngredientTest {
 
-    private static final Long ID_VALUE = 1L;
+    private static final String ID_VALUE = "1";
     private static final String DESCRIPTION = "description";
     private static final BigDecimal AMOUNT = BigDecimal.valueOf(10L);
-    private static final Long RECIPE_ID = 1L;
-    private static final Long UOM_ID = 1L;
+    private static final String RECIPE_ID = "1";
+    private static final String UOM_ID = "1";
 
 
     private IngredientCommandToIngredient converter;

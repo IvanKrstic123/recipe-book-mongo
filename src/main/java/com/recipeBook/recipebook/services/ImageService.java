@@ -6,5 +6,5 @@ import java.io.IOException;
 
 public interface ImageService {
 
-    void saveImageFile(Long recipeId, MultipartFile file) throws IOException;
+    void saveImageFile(String recipeId, MultipartFile file) throws IOException;
 }
