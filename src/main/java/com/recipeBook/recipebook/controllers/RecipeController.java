@@ -4,6 +4,7 @@ import com.recipeBook.recipebook.commands.RecipeCommand;
 import com.recipeBook.recipebook.exceptions.NotFoundExceotion;
 import com.recipeBook.recipebook.services.RecipeService;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,8 +27,10 @@ public class RecipeController {
 
     @GetMapping("/recipe/{id}/show")
     public String showById(@PathVariable String id, Model model) {
-        Integer.parseInt(id);
 
+        if (!ObjectId.isValid(id)) {
+            throw new NumberFormatException();
+        }
         model.addAttribute("recipe", recipeService.findById(id));
 
         return "recipe/show";

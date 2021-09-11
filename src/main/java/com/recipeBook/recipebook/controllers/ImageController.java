@@ -4,6 +4,7 @@ import com.recipeBook.recipebook.commands.RecipeCommand;
 import com.recipeBook.recipebook.services.ImageService;
 import com.recipeBook.recipebook.services.RecipeService;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.bson.types.ObjectId;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,8 +31,10 @@ public class ImageController {
 
     @GetMapping("recipe/{id}/image")
     public String showUploadForm(@PathVariable String id, Model model) {
-        Integer.parseInt(id);
 
+        if (!ObjectId.isValid(id)) {
+            throw new NumberFormatException();
+        }
         model.addAttribute("recipe", recipeService.findCommandById(id));
 
         return "recipe/imageuploadform";
@@ -62,8 +65,5 @@ public class ImageController {
             InputStream inputStream = new ByteArrayInputStream(byteArray);
             IOUtils.copy(inputStream, response.getOutputStream());
         }
-
     }
-
-
 }
