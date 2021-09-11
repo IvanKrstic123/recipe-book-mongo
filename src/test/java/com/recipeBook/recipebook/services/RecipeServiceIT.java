@@ -13,8 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-
-@Disabled
 @SpringBootTest
 class RecipeServiceIT {
 
@@ -33,7 +31,6 @@ class RecipeServiceIT {
     void setUp() {
     }
 
-    @Transactional
     @Test
     void testSaveOfDescription() {
         //given
