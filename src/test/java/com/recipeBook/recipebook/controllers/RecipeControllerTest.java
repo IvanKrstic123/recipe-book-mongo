@@ -52,7 +52,7 @@ class RecipeControllerTest {
 
         when(recipeService.findById(anyString())).thenReturn(recipe);
 
-        mockMvc.perform(get("/recipe/1/show"))
+        mockMvc.perform(get("/recipe/613be5eabab1e913917bffb3/show"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("recipe/show"))
                 .andExpect(model().attributeExists("recipe"));
@@ -62,7 +62,7 @@ class RecipeControllerTest {
     void testNotFoundRecipe() throws Exception {
         when(recipeService.findById(anyString())).thenThrow(NotFoundExceotion.class);
 
-        mockMvc.perform(get("/recipe/1/show"))
+        mockMvc.perform(get("/recipe/613be5eabab1e913917bffb3/show"))
                 .andExpect(status().isNotFound())
                 .andExpect(view().name("404error"));
     }

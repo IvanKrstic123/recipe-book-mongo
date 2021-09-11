@@ -5,6 +5,7 @@ import com.recipeBook.recipebook.services.ImageService;
 import com.recipeBook.recipebook.services.IngredientService;
 import com.recipeBook.recipebook.services.RecipeService;
 import com.recipeBook.recipebook.services.UnitOfMeasureService;
+import org.bson.types.ObjectId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -51,7 +52,7 @@ class ImageControllerTest {
 
         when(recipeService.findCommandById(anyString())).thenReturn(recipeCommand);
 
-        mockMvc.perform(get("/recipe/1/image"))
+        mockMvc.perform(get("/recipe/613be5eabab1e913917bffb3/image"))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("recipe"));
 
@@ -61,7 +62,7 @@ class ImageControllerTest {
 
     @Test
     void getImage() throws Exception {
-
+        //test for Long Id values - RDBMS
         mockMvc.perform(get("/recipe/asdasd/image"))
                 .andExpect(status().isBadRequest())
                 .andExpect(view().name("400error"));

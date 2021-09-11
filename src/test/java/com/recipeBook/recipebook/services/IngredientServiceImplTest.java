@@ -73,7 +73,6 @@ class IngredientServiceImplTest {
 
         //when
         assertEquals("2", ingredientCommand.getId());
-        assertEquals("1", ingredientCommand.getRecipeId());
         verify(recipeRepository, times(1)).findById(anyString());
     }
 
@@ -114,7 +113,7 @@ class IngredientServiceImplTest {
         Recipe recipe = new Recipe();
         recipe.setId("2");
         recipe.addIngredient(ingredient);
-        ingredient.setRecipe(recipe);
+//        ingredient.setRecipe(recipe);
 
         when(recipeRepository.findById(any())).thenReturn(Optional.of(recipe));
 
