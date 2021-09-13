@@ -4,7 +4,11 @@ import com.recipeBook.recipebook.domain.*;
 import com.recipeBook.recipebook.repositories.CategoryRepository;
 import com.recipeBook.recipebook.repositories.RecipeRepository;
 import com.recipeBook.recipebook.repositories.UnitOfMeasureRepository;
+import com.recipeBook.recipebook.repositories.reactive.CategoryReactiveRepository;
+import com.recipeBook.recipebook.repositories.reactive.RecipeReactiveRepository;
+import com.recipeBook.recipebook.repositories.reactive.UnitOfMeasureReactiveRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -37,6 +41,8 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
         loadUom();
         recipeRepository.saveAll(getRecipes());
         log.debug("Loading Bootstrap Data");
+
+
     }
 
     private void loadCategories(){
