@@ -35,7 +35,7 @@ public class ImageController {
         if (!ObjectId.isValid(id)) {
             throw new NumberFormatException();
         }
-        model.addAttribute("recipe", recipeService.findCommandById(id));
+        model.addAttribute("recipe", recipeService.findCommandById(id).block());
 
         return "recipe/imageuploadform";
     }
@@ -50,7 +50,7 @@ public class ImageController {
 
     @GetMapping("recipe/{id}/recipeImage")
     public void renderImageFromDB(@PathVariable String id, HttpServletResponse response) throws IOException {
-        RecipeCommand recipeCommand = recipeService.findCommandById(id);
+        RecipeCommand recipeCommand = recipeService.findCommandById(id).block();
 
         if(recipeCommand.getImage() != null) {
             //unboxing

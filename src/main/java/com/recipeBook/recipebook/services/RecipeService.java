@@ -2,19 +2,21 @@ package com.recipeBook.recipebook.services;
 
 import com.recipeBook.recipebook.commands.RecipeCommand;
 import com.recipeBook.recipebook.domain.Recipe;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.Optional;
 import java.util.Set;
 
 public interface RecipeService {
 
-    Set<Recipe> getRecipes();
+    Flux<Recipe> getRecipes();
 
-    Recipe findById(String l);
+    Mono<Recipe> findById(String l);
 
-    RecipeCommand saveRecipeCommand(RecipeCommand command);
+    Mono<RecipeCommand> saveRecipeCommand(RecipeCommand command);
 
-    RecipeCommand findCommandById(String valueOf);
+    Mono<RecipeCommand> findCommandById(String valueOf);
 
-    void deleteById(String id);
+    Mono<Void> deleteById(String id);
 }

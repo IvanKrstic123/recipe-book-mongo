@@ -3,14 +3,16 @@ package com.recipeBook.recipebook.services;
 import com.recipeBook.recipebook.converters.RecipeCommandToRecipe;
 import com.recipeBook.recipebook.converters.RecipeToRecipeCommand;
 import com.recipeBook.recipebook.domain.Recipe;
-import com.recipeBook.recipebook.repositories.RecipeRepository;
+import com.recipeBook.recipebook.repositories.reactive.RecipeReactiveRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -20,7 +22,7 @@ import static org.mockito.Mockito.*;
 class RecipeServiceImplTest {
 
     @Mock
-    RecipeRepository recipeRepository;
+    RecipeReactiveRepository recipeReactiveRepository;
 
     @Mock
     RecipeCommandToRecipe recipeCommandToRecipe;
@@ -32,9 +34,9 @@ class RecipeServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        recipeRepository = Mockito.mock(RecipeRepository.class);
+        recipeReactiveRepository = Mockito.mock(RecipeReactiveRepository.class);
 
-        recipeService = new RecipeServiceImpl(recipeRepository, recipeCommandToRecipe, recipeToRecipeCommand);
+        recipeService = new RecipeServiceImpl(recipeReactiveRepository, recipeCommandToRecipe, recipeToRecipeCommand);
     }
 
     @Test
@@ -42,40 +44,42 @@ class RecipeServiceImplTest {
 
         /* how mock data will look like */
         Recipe recipe = new Recipe();
-        Set<Recipe> recipeData = new HashSet();
-        recipeData.add(recipe);
 
         /* what should be returned when calling method */
-        when(recipeRepository.findAll()).thenReturn(recipeData);
+        when(recipeReactiveRepository.findAll()).thenReturn(Flux.just(recipe));
 
         /* calling method for testing */
-        Set<Recipe> recipes = recipeService.getRecipes();
+        List<Recipe> recipes = recipeService.getRecipes().collectList().block();
 
         assertEquals(recipes.size(), 1);
-        verify(recipeRepository, times(1)).findAll(); /* broj pozivanja metode */
+        verify(recipeReactiveRepository, times(1)).findAll(); /* broj pozivanja metode */
     }
 
     @Test
     void findById() {
         Recipe recipe = new Recipe();
         recipe.setId("1");
-        Optional<Recipe> recipeOptional = Optional.of(recipe);
 
-        when(recipeRepository.findById(anyString())).thenReturn(recipeOptional);
+        when(recipeReactiveRepository.findById(anyString())).thenReturn(Mono.just(recipe));
 
-        Recipe recipeReturned = recipeService.findById("1");
+        Recipe recipeReturned = recipeService.findById("1").block();
 
         assertNotNull(recipeReturned);
-        verify(recipeRepository, times(1)).findById(anyString());
-        verify(recipeRepository, never()).findAll();
+        verify(recipeReactiveRepository, times(1)).findById(anyString());
+        verify(recipeReactiveRepository, never()).findAll();
     }
 
     @Test
     void testDeleteById() {
-        String idToDelete = "1";
+        //given
+        String idToDelete = "2";
 
+        when(recipeReactiveRepository.deleteById(anyString())).thenReturn(Mono.empty());
+
+        //when
         recipeService.deleteById(idToDelete);
 
-        verify(recipeRepository, times(1)).deleteById(anyString());
+        //then
+        verify(recipeReactiveRepository, times(1)).deleteById(anyString());
     }
 }
