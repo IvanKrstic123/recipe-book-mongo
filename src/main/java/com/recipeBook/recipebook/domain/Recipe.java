@@ -34,7 +34,6 @@ public class Recipe {
 
     private Set<Ingredient> ingredients = new HashSet<>();
 
-    @DBRef
     private Set<Category> categories = new HashSet<>();
 
     /** getters and setters **/
