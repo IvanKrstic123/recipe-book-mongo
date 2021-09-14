@@ -72,7 +72,7 @@ public class IngredientController {
         log.debug("Saved recipe id: " + saved.getRecipeId());
         log.debug("saved ingredient id: " + saved.getId());
 
-        return "redirect:/recipe/" + saved.getRecipeId() +"/ingredient/" + saved.getId() + "/show";
+        return "redirect:/recipe/" + saved.getRecipeId() +"/ingredients/";
     }
 
     @GetMapping("recipe/{recipeId}/ingredient/{ingredientId}/delete")
