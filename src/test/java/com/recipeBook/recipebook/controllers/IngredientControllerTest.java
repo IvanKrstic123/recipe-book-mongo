@@ -14,6 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import reactor.core.publisher.Mono;
 
 import javax.print.attribute.standard.Media;
 import java.util.HashSet;
@@ -67,7 +68,7 @@ class IngredientControllerTest {
     void testShowIngredient() throws Exception {
         IngredientCommand ingredientCommand = new IngredientCommand();
 
-        when(ingredientService.findByRecipeIdAndIngredientId(anyString(), anyString())).thenReturn(ingredientCommand);
+        when(ingredientService.findByRecipeIdAndIngredientId(anyString(), anyString())).thenReturn(Mono.just(ingredientCommand));
 
         mockMvc.perform(get("/recipe/1/ingredient/2/show"))
                 .andExpect(status().isOk())
@@ -79,7 +80,7 @@ class IngredientControllerTest {
     void testUpdateIngredientDisplayForm() throws Exception {
         IngredientCommand command = new IngredientCommand();
 
-        when(ingredientService.findByRecipeIdAndIngredientId(anyString(), anyString())).thenReturn(command);
+        when(ingredientService.findByRecipeIdAndIngredientId(anyString(), anyString())).thenReturn(Mono.just(command));
         when(uomService.listAllUoms()).thenReturn(new HashSet<>());
 
         mockMvc.perform(get("/recipe/1/ingredient/3/update"))
@@ -109,7 +110,7 @@ class IngredientControllerTest {
         command.setId("4");
         command.setRecipeId("2");
 
-        when(ingredientService.saveIngredientCommand(any())).thenReturn(command);
+        when(ingredientService.saveIngredientCommand(any())).thenReturn(Mono.just(command));
 
         mockMvc.perform(post("/recipe/2/ingredient")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
