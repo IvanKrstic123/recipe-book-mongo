@@ -69,10 +69,10 @@ public class IngredientController {
     public String saveOrUpdateIngredient(@ModelAttribute IngredientCommand command, Model model){
         IngredientCommand saved = ingredientService.saveIngredientCommand(command);
 
-        log.debug("Saved recipe id: " + saved.getRecipeId());
-        log.debug("saved ingredient id: " + saved.getId());
+        System.out.println(saved.getId());
+        System.out.println(saved.getRecipeId());
 
-        return "redirect:/recipe/" + saved.getRecipeId() +"/ingredients/";
+        return "redirect:/recipe/" + saved.getRecipeId() +"/ingredient/" + saved.getId() + "/show";
     }
 
     @GetMapping("recipe/{recipeId}/ingredient/{ingredientId}/delete")

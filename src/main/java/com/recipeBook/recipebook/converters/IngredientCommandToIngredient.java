@@ -26,7 +26,11 @@ public class IngredientCommandToIngredient implements Converter<IngredientComman
         }
 
         final Ingredient ingredient = new Ingredient();
-        ingredient.setId(source.getId());
+
+        // do not override auto generated id if exists
+        if (source.getId() != null && !source.getId().isEmpty()) {
+            ingredient.setId(source.getId());
+        }
 
         if (source.getRecipeId() != null) {
             Recipe recipe = new Recipe();
@@ -37,6 +41,7 @@ public class IngredientCommandToIngredient implements Converter<IngredientComman
         ingredient.setDescription(source.getDescription());
         ingredient.setAmount(source.getAmount());
         ingredient.setUnitOfMeasure(uomConverter.convert(source.getUom()));
+
         return ingredient;
     }
 }
