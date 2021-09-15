@@ -2,9 +2,11 @@ package com.recipeBook.recipebook.services;
 
 import com.recipeBook.recipebook.domain.Recipe;
 import com.recipeBook.recipebook.repositories.RecipeRepository;
+import com.recipeBook.recipebook.repositories.reactive.RecipeReactiveRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 
@@ -12,28 +14,35 @@ import java.io.IOException;
 @Service
 public class ImageServiceImpl implements ImageService{
 
-    private final RecipeRepository recipeRepository;
+    private final RecipeReactiveRepository recipeReactiveRepository;
 
-    public ImageServiceImpl(RecipeRepository recipeRepository) {
-        this.recipeRepository = recipeRepository;
+    public ImageServiceImpl(RecipeReactiveRepository recipeRepository) {
+        this.recipeReactiveRepository = recipeRepository;
     }
 
     @Override
-    public void saveImageFile(String recipeId, MultipartFile file) throws IOException {
+    public Mono<Void> saveImageFile(String recipeId, MultipartFile file) throws IOException {
 
-        Recipe recipe = recipeRepository.findById(recipeId).get();
+        recipeReactiveRepository.findById(recipeId)
+                .map(recipe -> {
+                    Byte[] byteObjects = new Byte[0];
+                    try {
+                        byteObjects = new Byte[file.getBytes().length];
 
-        //collection bytes and storing in wraper type -> Byte[]
-        Byte[] imageBytes = new Byte[file.getBytes().length];
+                        int i = 0;
 
-        int i = 0;
+                        for (byte b : file.getBytes()) {
+                            byteObjects[i++] = b;
+                        }
 
-        for (byte temp : file.getBytes()) {
-            imageBytes[i++] = temp;
-        }
+                        recipe.setImage(byteObjects);
 
-        recipe.setImage(imageBytes);
+                        return recipe;
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }).publish(recipeMono -> recipeReactiveRepository.save(recipeMono.block()));
 
-        recipeRepository.save(recipe);
+        return Mono.empty();
     }
 }
