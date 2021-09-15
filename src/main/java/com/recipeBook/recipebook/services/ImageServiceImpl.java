@@ -16,14 +16,14 @@ public class ImageServiceImpl implements ImageService{
 
     private final RecipeReactiveRepository recipeReactiveRepository;
 
-    public ImageServiceImpl(RecipeReactiveRepository recipeRepository) {
-        this.recipeReactiveRepository = recipeRepository;
+    public ImageServiceImpl(RecipeReactiveRepository recipeReactiveRepository) {
+        this.recipeReactiveRepository = recipeReactiveRepository;
     }
 
     @Override
     public Mono<Void> saveImageFile(String recipeId, MultipartFile file) throws IOException {
 
-        recipeReactiveRepository.findById(recipeId)
+        Mono<Recipe> recipeMono = recipeReactiveRepository.findById(recipeId)
                 .map(recipe -> {
                     Byte[] byteObjects = new Byte[0];
                     try {
@@ -38,10 +38,14 @@ public class ImageServiceImpl implements ImageService{
                         recipe.setImage(byteObjects);
 
                         return recipe;
+
                     } catch (IOException e) {
+                        e.printStackTrace();
                         throw new RuntimeException(e);
                     }
-                }).publish(recipeMono -> recipeReactiveRepository.save(recipeMono.block()));
+                });
+
+        recipeReactiveRepository.save(recipeMono.block()).block();
 
         return Mono.empty();
     }
