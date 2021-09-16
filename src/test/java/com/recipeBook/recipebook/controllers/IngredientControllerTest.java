@@ -15,6 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import javax.print.attribute.standard.Media;
@@ -83,7 +84,7 @@ class IngredientControllerTest {
         IngredientCommand command = new IngredientCommand();
 
         when(ingredientService.findByRecipeIdAndIngredientId(anyString(), anyString())).thenReturn(Mono.just(command));
-        when(uomService.listAllUoms()).thenReturn(new HashSet<>());
+        when(uomService.listAllUoms()).thenReturn(Flux.empty());
 
         mockMvc.perform(get("/recipe/1/ingredient/3/update"))
                 .andExpect(status().isOk())
@@ -98,7 +99,7 @@ class IngredientControllerTest {
         RecipeCommand recipeCommand = new RecipeCommand();
 
         when(recipeService.findCommandById(anyString())).thenReturn(Mono.just(recipeCommand));
-        when(uomService.listAllUoms()).thenReturn(new HashSet<>());
+        when(uomService.listAllUoms()).thenReturn(Flux.empty());
 
         mockMvc.perform(get("/recipe/1/ingredient/new"))
                 .andExpect(status().isOk())

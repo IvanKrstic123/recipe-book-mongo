@@ -4,12 +4,15 @@ import com.recipeBook.recipebook.commands.UnitOfMeasureCommand;
 import com.recipeBook.recipebook.converters.UnitOfMeasureToUnitOfMeasureCommand;
 import com.recipeBook.recipebook.domain.UnitOfMeasure;
 import com.recipeBook.recipebook.repositories.UnitOfMeasureRepository;
+import com.recipeBook.recipebook.repositories.reactive.UnitOfMeasureReactiveRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import reactor.core.publisher.Flux;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -18,13 +21,13 @@ import static org.mockito.Mockito.*;
 class UnitOfMeasureServiceImplTest {
 
     @Mock
-    UnitOfMeasureRepository uomRepository;
+    UnitOfMeasureReactiveRepository uomRepository;
 
     UnitOfMeasureService uomService;
 
     @BeforeEach
     void setUp() {
-        uomRepository = Mockito.mock(UnitOfMeasureRepository.class);
+        uomRepository = Mockito.mock(UnitOfMeasureReactiveRepository.class);
         uomService = new UnitOfMeasureServiceImpl(uomRepository, new UnitOfMeasureToUnitOfMeasureCommand());
     }
 
@@ -41,9 +44,9 @@ class UnitOfMeasureServiceImplTest {
         uoms.add(uom1);
         uoms.add(uom2);
 
-        when(uomRepository.findAll()).thenReturn(uoms);
+        when(uomRepository.findAll()).thenReturn(Flux.fromIterable(uoms));
 
-        Set<UnitOfMeasureCommand> commands = uomService.listAllUoms();
+        List<UnitOfMeasureCommand> commands = uomService.listAllUoms().collectList().block();
 
         assertEquals(2, commands.size());
         verify(uomRepository, times(1)).findAll();
