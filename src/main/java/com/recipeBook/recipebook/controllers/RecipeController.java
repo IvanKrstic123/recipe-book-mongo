@@ -30,7 +30,7 @@ public class RecipeController {
         if (!ObjectId.isValid(id)) {
             throw new NumberFormatException();
         }
-        model.addAttribute("recipe", recipeService.findById(id).block());
+        model.addAttribute("recipe", recipeService.findById(id));
 
         return "recipe/show";
 

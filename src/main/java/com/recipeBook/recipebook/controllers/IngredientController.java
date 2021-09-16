@@ -28,7 +28,7 @@ public class IngredientController {
 
     @GetMapping("recipe/{id}/ingredients")
     public String getIngredients(@PathVariable String id, Model model) {
-        model.addAttribute("recipe", recipeService.findCommandById(id).block());
+        model.addAttribute("recipe", recipeService.findCommandById(id));
 
         return "recipe/ingredient/list";
     }
@@ -36,7 +36,7 @@ public class IngredientController {
     @GetMapping("recipe/{recipeId}/ingredient/{ingredientId}/show")
     public String showRecipeIngredient(@PathVariable String recipeId,
                                        @PathVariable String ingredientId, Model model) {
-        model.addAttribute("ingredient", ingredientService.findByRecipeIdAndIngredientId(recipeId, ingredientId).block());
+        model.addAttribute("ingredient", ingredientService.findByRecipeIdAndIngredientId(recipeId, ingredientId));
 
         return "recipe/ingredient/show";
     }
@@ -44,7 +44,7 @@ public class IngredientController {
     @GetMapping("recipe/{recipeId}/ingredient/{ingredientId}/update")
     public String updateRecipeIngredient(@PathVariable String recipeId,
                                        @PathVariable String ingredientId, Model model) {
-        model.addAttribute("ingredient", ingredientService.findByRecipeIdAndIngredientId(recipeId, ingredientId).block());
+        model.addAttribute("ingredient", ingredientService.findByRecipeIdAndIngredientId(recipeId, ingredientId));
 
         model.addAttribute("uomList", unitOfMeasureService.listAllUoms());
 
