@@ -4,6 +4,7 @@ import com.recipeBook.recipebook.domain.Recipe;
 import com.recipeBook.recipebook.services.RecipeService;
 import com.recipeBook.recipebook.services.RecipeServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -27,6 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 @ExtendWith(MockitoExtension.class)
+@Disabled
 class IndexControllerTest {
 
     @Mock

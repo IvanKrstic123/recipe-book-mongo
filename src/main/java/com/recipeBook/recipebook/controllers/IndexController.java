@@ -6,8 +6,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.stream.Collectors;
-
 @Slf4j
 @Controller
 public class IndexController {
@@ -22,7 +20,7 @@ public class IndexController {
     public String getIndexPage(Model model){
         log.debug("Getting index page!");
 
-        model.addAttribute("recipes", recipeService.getRecipes().collectList().block());
+        model.addAttribute("recipes", recipeService.getRecipes());
 
         return "index.html";
     }

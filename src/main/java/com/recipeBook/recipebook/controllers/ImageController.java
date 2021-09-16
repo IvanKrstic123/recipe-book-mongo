@@ -3,7 +3,6 @@ package com.recipeBook.recipebook.controllers;
 import com.recipeBook.recipebook.commands.RecipeCommand;
 import com.recipeBook.recipebook.services.ImageService;
 import com.recipeBook.recipebook.services.RecipeService;
-import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,7 +33,7 @@ public class ImageController {
         if (!ObjectId.isValid(id)) {
             throw new NumberFormatException();
         }
-        model.addAttribute("recipe", recipeService.findCommandById(id).block());
+        model.addAttribute("recipe", recipeService.findCommandById(id));
 
         return "recipe/imageuploadform";
     }
@@ -48,7 +46,7 @@ public class ImageController {
         return "redirect:/recipe/" + id + "/show";
     }
 
-    @GetMapping("recipe/{id}/recipeImage")
+    /*@GetMapping("recipe/{id}/recipeImage")
     public void renderImageFromDB(@PathVariable String id, HttpServletResponse response) throws IOException {
         RecipeCommand recipeCommand = recipeService.findCommandById(id).block();
 
@@ -65,5 +63,5 @@ public class ImageController {
             InputStream inputStream = new ByteArrayInputStream(byteArray);
             IOUtils.copy(inputStream, response.getOutputStream());
         }
-    }
+    }*/
 }

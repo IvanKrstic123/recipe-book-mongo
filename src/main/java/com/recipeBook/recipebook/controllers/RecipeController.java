@@ -11,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 
@@ -74,7 +73,7 @@ public class RecipeController {
         return "redirect:/";
     }
 
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+ /*   @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(NotFoundExceotion.class)
     public ModelAndView handleNotFound(Exception e) {
         ModelAndView modelAndView = new ModelAndView();
@@ -83,5 +82,5 @@ public class RecipeController {
         modelAndView.setViewName("404error");
 
         return modelAndView;
-    }
+    }*/
 }
