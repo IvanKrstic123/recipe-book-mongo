@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -19,6 +20,13 @@ import javax.validation.Valid;
 public class RecipeController {
 
     private final RecipeService recipeService;
+
+    private WebDataBinder webDataBinder;
+
+    @InitBinder
+    public void initBinder(WebDataBinder webDataBinder) {
+        this.webDataBinder = webDataBinder;
+    }
 
     public RecipeController(RecipeService recipeService) {
         this.recipeService = recipeService;
@@ -45,12 +53,16 @@ public class RecipeController {
 
     @GetMapping("recipe/{id}/update")
     public String updateRecipe(@PathVariable String id, Model model) {
-        model.addAttribute("recipe", recipeService.findCommandById(id).block());
+        model.addAttribute("recipe", recipeService.findCommandById(id));
+
         return "recipe/recipeform";
     }
 
     @PostMapping("recipe")
-    public String saveOrUpdate(@Valid @ModelAttribute("recipe") RecipeCommand command, BindingResult bindingResult) throws BindException {   /** binding form post params to recipecommand object **/
+    public String saveOrUpdate(@ModelAttribute("recipe") RecipeCommand command) throws BindException {   /** binding form post params to recipecommand object **/
+
+    webDataBinder.validate();
+    BindingResult bindingResult = webDataBinder.getBindingResult();
 
     if (bindingResult.hasErrors()) {
         bindingResult.getAllErrors().forEach(objectError -> {
@@ -72,6 +84,8 @@ public class RecipeController {
         recipeService.deleteById(id);
         return "redirect:/";
     }
+
+
 
  /*   @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(NotFoundExceotion.class)
