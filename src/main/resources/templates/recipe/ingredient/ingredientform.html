@@ -18,9 +18,12 @@
   <div class="row">
     <div class="col-md-8 offset-md-2">
       <div class="card text-light mb-3">
-        <div class="card-header" style="background-color: #337ab7;">Edit Ingredient Information</div>
-        <div class="card-body">
           <form th:object="${ingredient}" th:action="@{'/recipe/' + ${ingredient.getRecipeId()} + '/ingredient'}" method="post">
+            <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+              <p>Please Correct Errors Below</p>
+            </div>
+            <div class="card-header" style="background-color: #337ab7;">Edit Ingredient Information</div>
+            <div class="card-body">
             <input type="hidden" th:field="*{id}"/>
             <div class="row">
               <div class="form-group col-md-4">
