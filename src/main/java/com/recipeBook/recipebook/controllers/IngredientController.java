@@ -3,15 +3,18 @@ package com.recipeBook.recipebook.controllers;
 import com.recipeBook.recipebook.commands.IngredientCommand;
 import com.recipeBook.recipebook.commands.RecipeCommand;
 import com.recipeBook.recipebook.commands.UnitOfMeasureCommand;
+import com.recipeBook.recipebook.exceptions.NotFoundExceotion;
 import com.recipeBook.recipebook.services.IngredientService;
 import com.recipeBook.recipebook.services.RecipeService;
 import com.recipeBook.recipebook.services.UnitOfMeasureService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.thymeleaf.exceptions.TemplateInputException;
 import reactor.core.publisher.Flux;
 
 @Slf4j
@@ -102,5 +105,14 @@ public class IngredientController {
     @ModelAttribute("uomList")
     public Flux<UnitOfMeasureCommand> populateUomList(){
         return unitOfMeasureService.listAllUoms();
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler({NotFoundExceotion.class, TemplateInputException.class})
+    public String handleNotFound(Exception e, Model model) {
+
+        model.addAttribute("exception", e);
+
+        return "404error";
     }
 }

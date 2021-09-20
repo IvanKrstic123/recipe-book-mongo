@@ -1,15 +1,17 @@
 package com.recipeBook.recipebook.controllers;
 
 import com.recipeBook.recipebook.commands.RecipeCommand;
+import com.recipeBook.recipebook.exceptions.NotFoundExceotion;
 import com.recipeBook.recipebook.services.RecipeService;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
+ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.thymeleaf.exceptions.TemplateInputException;
 
 @Slf4j
 @Controller
@@ -31,9 +33,6 @@ public class RecipeController {
     @GetMapping("/recipe/{id}/show")
     public String showById(@PathVariable String id, Model model) {
 
-        if (!ObjectId.isValid(id)) {
-            throw new NumberFormatException();
-        }
         model.addAttribute("recipe", recipeService.findById(id));
 
         return "recipe/show";
@@ -75,22 +74,16 @@ public class RecipeController {
     @GetMapping("recipe/{id}/delete")
     public String deleteById(@PathVariable String id){
 
-        log.debug("Deleting id: " + id);
-
         recipeService.deleteById(id);
         return "redirect:/";
     }
 
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler({NotFoundExceotion.class, TemplateInputException.class})
+    public String handleNotFound(Exception e, Model model) {
 
+        model.addAttribute("exception", e);
 
- /*   @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(NotFoundExceotion.class)
-    public ModelAndView handleNotFound(Exception e) {
-        ModelAndView modelAndView = new ModelAndView();
-
-        modelAndView.addObject("exception", e);
-        modelAndView.setViewName("404error");
-
-        return modelAndView;
-    }*/
+        return "404error";
+    }
 }
