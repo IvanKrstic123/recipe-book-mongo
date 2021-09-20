@@ -1,19 +1,15 @@
 package com.recipeBook.recipebook.controllers;
 
 import com.recipeBook.recipebook.commands.RecipeCommand;
-import com.recipeBook.recipebook.exceptions.NotFoundExceotion;
 import com.recipeBook.recipebook.services.RecipeService;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 
 @Slf4j
 @Controller

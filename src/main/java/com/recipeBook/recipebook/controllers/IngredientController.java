@@ -9,6 +9,8 @@ import com.recipeBook.recipebook.services.UnitOfMeasureService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -19,6 +21,12 @@ public class IngredientController {
     private final IngredientService ingredientService;
     private final UnitOfMeasureService unitOfMeasureService;
 
+    private WebDataBinder webDataBinder;
+
+    @InitBinder("ingredient")
+    public void initBinder(WebDataBinder webDataBinder) {
+        this.webDataBinder = webDataBinder;
+    }
 
     public IngredientController(RecipeService recipeService, IngredientService ingredientService, UnitOfMeasureService unitOfMeasureService) {
         this.recipeService = recipeService;
@@ -66,10 +74,24 @@ public class IngredientController {
     }
 
     @PostMapping("recipe/{recipeId}/ingredient")
-    public String saveOrUpdateIngredient(@ModelAttribute IngredientCommand command, Model model){
+    public String saveOrUpdateIngredient(@ModelAttribute("ingredient") IngredientCommand command, @PathVariable String recipeId,
+                                         Model model){
+
+        webDataBinder.validate();
+        BindingResult bindingResult = webDataBinder.getBindingResult();
+
+        if (bindingResult.hasErrors()) {
+            bindingResult.getAllErrors().forEach(objectError -> {
+                log.debug(objectError.toString());
+            });
+
+            model.addAttribute("uomList", unitOfMeasureService.listAllUoms());
+            return "recipe/ingredient/ingredientform";
+        }
+
         IngredientCommand saved = ingredientService.saveIngredientCommand(command).block();
 
-        return "redirect:/recipe/" + saved.getRecipeId() +"/ingredient/" + saved.getId() + "/show";
+        return "redirect:/recipe/" + recipeId +"/ingredient/" + saved.getId() + "/show";
     }
 
     @GetMapping("recipe/{recipeId}/ingredient/{ingredientId}/delete")

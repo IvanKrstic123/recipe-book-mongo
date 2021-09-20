@@ -22,7 +22,7 @@ public class IngredientCommand {
     private String id;
     private String recipeId;
 
-    @NotBlank
+    @NotBlank // not null & not empty string
     private String description;
 
     @Min(value = 1)
