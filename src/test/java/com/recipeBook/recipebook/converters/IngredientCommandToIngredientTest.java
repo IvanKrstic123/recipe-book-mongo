@@ -15,7 +15,6 @@ class IngredientCommandToIngredientTest {
     private static final String ID_VALUE = "1";
     private static final String DESCRIPTION = "description";
     private static final BigDecimal AMOUNT = BigDecimal.valueOf(10L);
-    private static final String RECIPE_ID = "1";
     private static final String UOM_ID = "1";
 
 
@@ -28,12 +27,13 @@ class IngredientCommandToIngredientTest {
 
     @Test
     void convert() {
+        UnitOfMeasureCommand uom = new UnitOfMeasureCommand();
+        uom.setId(UOM_ID);
+
         IngredientCommand source = new IngredientCommand();
         source.setId(ID_VALUE);
         source.setDescription(DESCRIPTION);
         source.setAmount(AMOUNT);
-        UnitOfMeasureCommand uom = new UnitOfMeasureCommand();
-        uom.setId(UOM_ID);
         source.setUom(uom);
 
         Ingredient converted = converter.convert(source);

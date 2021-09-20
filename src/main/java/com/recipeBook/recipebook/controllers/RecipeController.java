@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.exceptions.TemplateInputException;
+import reactor.core.publisher.Mono;
 
 @Slf4j
 @Controller
@@ -54,7 +55,7 @@ public class RecipeController {
     }
 
     @PostMapping("recipe")
-    public String saveOrUpdate(@ModelAttribute("recipe") RecipeCommand command) throws BindException {   /** binding form post params to recipecommand object **/
+    public Mono<String> saveOrUpdate(@ModelAttribute("recipe") RecipeCommand command) throws BindException {   /** binding form post params to recipecommand object **/
 
     webDataBinder.validate();
     BindingResult bindingResult = webDataBinder.getBindingResult();
@@ -64,11 +65,11 @@ public class RecipeController {
             log.debug(objectError.toString());
         });
 
-        return "recipe/recipeform";
+        return Mono.just("recipe/recipeform");
     }
-        RecipeCommand savedCommand = recipeService.saveRecipeCommand(command).block();
-
-        return "redirect:/recipe/"+ savedCommand.getId() + "/show";  /** showing saved recipe **/
+        return recipeService.saveRecipeCommand(command).map(savedCommand -> {
+            return "redirect:/recipe/"+ savedCommand.getId() + "/show";
+        });
     }
 
     @GetMapping("recipe/{id}/delete")

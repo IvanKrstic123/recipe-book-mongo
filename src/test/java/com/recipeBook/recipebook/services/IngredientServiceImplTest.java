@@ -8,6 +8,8 @@ import com.recipeBook.recipebook.converters.UnitOfMeasureCommandToUnitOfMeasure;
 import com.recipeBook.recipebook.converters.UnitOfMeasureToUnitOfMeasureCommand;
 import com.recipeBook.recipebook.domain.Ingredient;
 import com.recipeBook.recipebook.domain.Recipe;
+import com.recipeBook.recipebook.domain.UnitOfMeasure;
+import com.recipeBook.recipebook.repositories.RecipeRepository;
 import com.recipeBook.recipebook.repositories.UnitOfMeasureRepository;
 import com.recipeBook.recipebook.repositories.reactive.RecipeReactiveRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,6 +19,7 @@ import org.mockito.Mockito;
 import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -36,6 +39,9 @@ class IngredientServiceImplTest {
     RecipeReactiveRepository recipeReactiveRepository;
 
     @Mock
+    RecipeRepository recipeRepository;
+
+    @Mock
     UnitOfMeasureRepository uomRepository;
 
     IngredientService ingredientService;
@@ -43,9 +49,10 @@ class IngredientServiceImplTest {
     @BeforeEach
     void setUp() {
         recipeReactiveRepository = Mockito.mock(RecipeReactiveRepository.class);
+        recipeRepository = Mockito.mock(RecipeRepository.class);
         uomRepository = Mockito.mock(UnitOfMeasureRepository.class);
 
-        ingredientService = new IngredientServiceImpl(recipeReactiveRepository, uomRepository, ingredientToIngredientCommand, ingredientCommandToIngredient, new UnitOfMeasureCommandToUnitOfMeasure());
+        ingredientService = new IngredientServiceImpl(recipeReactiveRepository, recipeRepository, uomRepository, ingredientToIngredientCommand, ingredientCommandToIngredient, new UnitOfMeasureCommandToUnitOfMeasure());
     }
 
     @Test
@@ -76,6 +83,9 @@ class IngredientServiceImplTest {
 
     @Test
     void saveIngredientCommand() {
+        UnitOfMeasure uom = new UnitOfMeasure();
+        uom.setDescription("Testing");
+
         UnitOfMeasureCommand unitOfMeasureCommand = new UnitOfMeasureCommand();
         unitOfMeasureCommand.setId("1");
 
@@ -90,14 +100,15 @@ class IngredientServiceImplTest {
         Recipe savedRecipe = new Recipe();
         savedRecipe.addIngredient(ingredientCommandToIngredient.convert(command));
 
-        when(recipeReactiveRepository.findById(anyString())).thenReturn(Mono.just(new Recipe()));
-        when(recipeReactiveRepository.save(any())).thenReturn(Mono.just(savedRecipe));
+        when(recipeRepository.findById(anyString())).thenReturn(Optional.of(new Recipe()));
+        when(uomRepository.findById(anyString())).thenReturn(Optional.of(uom));
+        when(recipeRepository.save(any())).thenReturn(savedRecipe);
 
-        IngredientCommand savedCommand = ingredientService.saveIngredientCommand(command).block();
+        IngredientCommand savedCommand = ingredientService.saveIngredientCommand(command);
 
         assertEquals("1", savedCommand.getId());
-        verify(recipeReactiveRepository, times(1)).findById(anyString());
-        verify(recipeReactiveRepository, times(1)).save(any(Recipe.class));
+        verify(recipeRepository, times(1)).findById(anyString());
+        verify(recipeRepository, times(1)).save(any(Recipe.class));
     }
 
     @Test
@@ -113,13 +124,13 @@ class IngredientServiceImplTest {
         recipe.addIngredient(ingredient);
 //        ingredient.setRecipe(recipe);
 
-        when(recipeReactiveRepository.findById(anyString())).thenReturn(Mono.just(recipe));
-        when(recipeReactiveRepository.save(any())).thenReturn(Mono.just(recipe));
+        when(recipeRepository.findById(anyString())).thenReturn(Optional.of(recipe));
+        when(recipeRepository.save(any())).thenReturn(recipe);
 
         ingredientService.deleteById("2","1");
 
-        verify(recipeReactiveRepository, times(1)).findById(anyString());
-        verify(recipeReactiveRepository, times(1)).save(any(Recipe.class));
+        verify(recipeRepository, times(1)).findById(anyString());
+        verify(recipeRepository, times(1)).save(any(Recipe.class));
 
     }
 }

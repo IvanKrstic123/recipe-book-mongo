@@ -11,11 +11,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.exceptions.TemplateInputException;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @Slf4j
 @Controller
@@ -62,16 +64,18 @@ public class IngredientController {
     }
 
     @GetMapping("recipe/{recipeId}/ingredient/new")
-    public String newIngredientForm(@PathVariable String recipeId, Model model){
-        RecipeCommand recipeCommand = recipeService.findCommandById(recipeId).block();
+    public Mono<String> newIngredientForm(@PathVariable String recipeId, Model model){
 
-        IngredientCommand ingredientCommand = new IngredientCommand();
-        ingredientCommand.setRecipeId(recipeCommand.getId());
-        ingredientCommand.setUom(new UnitOfMeasureCommand());
+        return recipeService.findCommandById(recipeId).map(recipeCommand -> {
+            IngredientCommand ingredientCommand = new IngredientCommand();
+            ingredientCommand.setRecipeId(recipeCommand.getId());
+            ingredientCommand.setUom(new UnitOfMeasureCommand());
 
-        model.addAttribute("ingredient", ingredientCommand);
+            model.addAttribute("ingredient", ingredientCommand);
 
-        return "recipe/ingredient/ingredientform";
+            return "recipe/ingredient/ingredientform";
+        });
+
     }
 
     @PostMapping("recipe/{recipeId}/ingredient")
@@ -89,17 +93,17 @@ public class IngredientController {
             return "recipe/ingredient/ingredientform";
         }
 
-        IngredientCommand saved = ingredientService.saveIngredientCommand(command).block();
+        IngredientCommand saved = ingredientService.saveIngredientCommand(command);
 
         return "redirect:/recipe/" + recipeId +"/ingredient/" + saved.getId() + "/show";
     }
 
     @GetMapping("recipe/{recipeId}/ingredient/{ingredientId}/delete")
-    public String deleteIngredient(@PathVariable String recipeId, @PathVariable String ingredientId){
+    public Mono<String> deleteIngredient(@PathVariable String recipeId, @PathVariable String ingredientId){
 
         ingredientService.deleteById(recipeId, ingredientId);
 
-        return "redirect:/recipe/" + recipeId + "/ingredients";
+        return Mono.just("redirect:/recipe/" + recipeId + "/ingredients");
     }
 
     @ModelAttribute("uomList")

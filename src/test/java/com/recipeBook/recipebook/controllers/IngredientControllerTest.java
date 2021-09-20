@@ -113,7 +113,7 @@ class IngredientControllerTest {
         command.setId("4");
         command.setRecipeId("2");
 
-        when(ingredientService.saveIngredientCommand(any())).thenReturn(Mono.just(command));
+        when(ingredientService.saveIngredientCommand(any())).thenReturn(command);
 
         mockMvc.perform(post("/recipe/2/ingredient")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)

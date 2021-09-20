@@ -7,8 +7,8 @@ public interface IngredientService {
 
     Mono<IngredientCommand> findByRecipeIdAndIngredientId(String recipeId, String ingredientId);
 
-    Mono<IngredientCommand> saveIngredientCommand(IngredientCommand command);
+    IngredientCommand saveIngredientCommand(IngredientCommand command);
 
-    Mono<Void> deleteById(String recipeId, String ingredientId);
+    void deleteById(String recipeId, String ingredientId);
 
 }
