@@ -15,7 +15,7 @@ import static org.springframework.web.reactive.function.server.RequestPredicates
 public class WebConfig {
 
     @Bean // recipe service instance will be injected for us
-    RouterFunction<?> router(RecipeService recipeService) {
+    public RouterFunction<?> routes(RecipeService recipeService) {
         return RouterFunctions.route(GET("/api/recipes"),
                 serverRequest -> ServerResponse
                         .ok()
